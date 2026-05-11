@@ -1,0 +1,12 @@
+data:
+  name: CF
+  folder: ./datasets/Synth
+  text_type: raw
+  hist_len: 128
+  pred_len: 128
+
+eval:
+  n_samples: 10
+  model_path: ""
+  batch_size: 128
+  device: cuda:0

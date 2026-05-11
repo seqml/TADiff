@@ -1,0 +1,19 @@
+device: cuda:0
+
+diffusion:
+  type: TADiff
+  channels: 64
+  num_layers: 3
+  num_heads: 8
+  patch_size: 2
+  max_seq_len: 256
+  learn_sigma: False
+  diff_step_proj: True
+  adaln: False
+  attn_dropout_p: 0.0
+  dropout_p: 0.0
+
+  beta_start: 0.0001
+  beta_end: 0.5
+  schedule: "quad"
+  num_steps: 50

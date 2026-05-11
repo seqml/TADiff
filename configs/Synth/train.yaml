@@ -1,0 +1,15 @@
+### Dataset ###
+data:
+  name: CF
+  folder: ./datasets/Synth
+  text_type: raw
+  hist_len: 128
+  pred_len: 128
+
+### Train ###
+train:
+  epochs: 200
+  batch_size: 256
+  lr: 1.0e-3
+  model_path: ""
+  output_folder: ""

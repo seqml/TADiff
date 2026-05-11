@@ -1,0 +1,15 @@
+device: cuda:0
+generator_pretrain_path: ""
+
+cond_modal: ""
+text:
+  text_emb: 64
+  tokenizer_path: ./save/Longclip
+  word_size: 49408
+
+text_projector: uniform
+text_emb: 64
+
+dttc_loss:
+  dttc_i_weight: 1.0
+  dttc_e_weight: 0.1
