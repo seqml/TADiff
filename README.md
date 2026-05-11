@@ -17,38 +17,37 @@
 </div>
 
 <p align="center">
-<img src="https://github.com/seqml/VerbalTS/blob/main/asset/task_formulation.png" width=95%>
+<img src="https://github.com/seqml/TADiff/blob/main/asset/task_formulation.png" width=95%>
 <p>
 <be>
 
 ## Contribution
-### 1. Model Architecture
-We propose VerbalTS, which consists of two key components: a multi-view noise estimator and a multi-focal text processor.
+### 1. Counterfacutal Forecasting Method
+We propose TADiff, a counterfactual time series forecasting model with text-attribution mechanism. 
 <p align="center">
-<img src="https://github.com/seqml/VerbalTS/blob/main/asset/pipeline.png" width=95%>
+<img src="https://github.com/seqml/TADiff/blob/main/asset/framework.png" width=95%>
 <p>
-Our model considers the time series generation process from three perspectives: temporal view, spatial view, and diffusion view. The textual description is processed through multi-focal reprogramming, which integrates the relevant tokens through learnable anchor vectors. Finally, a condition adapter is applied to align the multi-semantic information from the text across the three views with the corresponding components of the time series. With the method above, we achieve fine-grained time series generation from the textual descriptions. 
+To achieve balanced forecasting considering the combined effects of history and future, we propose a text-attribution mechanism that attributes historical sequences prior to forecasting, aiming to decouple the intrinsic features of the sequence from the extrinsic conditions. The overall process consists of a two-stage inference and a joint training with
+two optimization objectives.
 
-### 2. Experimental Results
-We compare our method, VerbalTS, with the baselines on two synthetic datasets Synth-M, Synth-U, two real-world datasets Weather, BlindWays, and two real-world augmented datasets ETTm1, Traffic. As shown in the table below, our method significantly improves the fidelity and semantic alignment of the generated time series.
+### 2. Counterfactual Forecasting Evaluation
+We propose DTTC scores, the model-based evaluation metrics for counterfactual time sries forecasting, even when the ground truth time series is absent. The DTTC scores consist of DTTC-I and DTTC-E, measuring the consistency of forecasts with intrinsic historical featues and extrinsic future condtions, respectively.
+
+### 3. Experimental Results
+We compare our method, TADiff, with the baselines on both synthetic and real-world datasets. We consider both the factual forecasting and counterfactual forecasting. As shown in the table below, TADiff achieves both superior numerical accuracy and semantic consistency. Moreover, TADiff exhibits strong adaptability and generalization for forecasting under diverse future conditions.
 <p align="center">
-<img src="https://github.com/seqml/VerbalTS/blob/main/asset/main_exp.png" width=95%>
+<img src="https://github.com/seqml/TADiff/blob/main/asset/main_exp.png" width=95%>
 <p>
-
-### 3. Demo
-Our method supports using verbal language to generate or edit the time series.
-
-https://github.com/user-attachments/assets/4b863342-3e0e-4e47-b72f-e085c59c7dc3
 
 ## Installation
 ### 1. Environment
 ```
-torch==2.2.1
+torch==2.6.0
 pandas==2.0.3
-pyyaml==6.0.2
+pyyaml==6.0.3
 linear_attention_transformer==0.19.1
-tensorboard==2.14.0
-scikit-learn==1.3.2
+tensorboard==2.20.0
+scikit-learn==1.7.2
 ```
 You can use the following command to prepare your environment.
 ```
@@ -57,21 +56,23 @@ pip install -r requirements.txt
 ### 2. Dataset
 Download the datasets from [Google Drive](https://drive.google.com/drive/folders/1N0zxkLdvpdjkwayKA2OZIJYP4nfzhOeF?usp=drive_link).
 <details>
-    <summary> Assume the datasets are in `/path/to/data/`. It should be like:</summary>
+    <summary> Assume the datasets are in `/path/to/dataset/`. It should be like:</summary>
   
-    /path/to/data/:
-        synthetic_m/:
-            meta.json
-            train_ts.npy
-            train_attrs_idx.npy
-            train_caps.npy
-            valid_ts.npy
-            valid_attrs_idx.npy
-            train_caps.npy
+    /path/to/dataset/:
+        Synth/:
+            F/:
+                train_ts.npy
+                train_attrs.npy
+                train_caps.npy
+                ...
+            CF/:
+                train_ts.npy
+                train_attrs.npy
+                train_caps.npy
+                ...
+        ETTm1/:
             ...
-        Weather/:
-            ...
-   **NOTE: The arg `--data_folder=/path/to/data/` should be passed to the training script.**
+   **NOTE: The arg `--data_folder=/path/to/dataset/` should be passed to the training script.**
 </details>
 
 ### 3. Pretrained model checkpoints
@@ -100,20 +101,20 @@ Download the checkpoints from [Google Drive](https://drive.google.com/drive/fold
    
 ## Training
 ### 1. Train scripts
-To pretrain the model on the specific dataset.
+To pretrain the model on the factual data and finetune the model on the counterfactual data.
 ```
-bash scripts/dataset_name/train.sh
+bash scripts/{dataset_name}/pretrain.sh
+bash scripts/{dataset_name}/finetune.sh
 ```
 ### 2. Results
 After the training, check the results at the following path.
 ```
-{save_folder}/{run_id}/results_stat.csv
-{save_folder}/{run_id}/results_stat_condgen.csv
+{save_folder}/{run_id}/results.csv
 ```
 ### 3. Evaluate with checkpoints
 To evaluate the model with the checkpoints.
 ```
-bash scripts/dataset_name/eval.sh
+bash scripts/{dataset_name}/eval.sh
 ```
 ### 5. Device
 All codes in this repository run on GPU by default. If you need to run on the CPU, please modify the device-related parameters in the config file.
@@ -124,10 +125,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Citation
 If our work helps you in research, please give us a star or cite us using the following:
 ```
-@article{gu2025verbalts,
+@article{gu2026tadiff,
   title={VerbalTS: Generating Time Series from Texts},
-  author={Gu, Shuqi and Li, Chuyue and Jing, Baoyu and Ren, Kan},
-  journal={International Conference on Machine Learning},
-  year={2025}
+  author={Gu, Shuqi and Zhao, Yongxiang and Jing, Baoyu and Ren, Kan},
+  journal={What if Tomorrow is the World Cup Final? Counterfactual Time Series Forecasting with Textual Conditions},
+  year={2026}
 }
 ```
