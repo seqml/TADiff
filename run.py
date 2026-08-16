@@ -72,7 +72,7 @@ def run(train_configs, eval_configs, model_diff_configs, model_cond_configs, out
     if only_evaluate == False:
         train(train_configs, model_diff_configs, model_cond_configs, eval_configs, output_folder)
 
-    df = evaluate(eval_configs, model_diff_configs, model_cond_configs, output_folder, only_evaluate)
+    df = evaluate(eval_configs, model_diff_configs, model_cond_configs, output_folder)
     path = os.path.join(output_folder, "results.csv")
     df.to_csv(path)
     return df
