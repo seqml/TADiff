@@ -78,7 +78,7 @@ Download the datasets from [Google Drive](https://drive.google.com/drive/folders
 ### 3. Pretrained model checkpoints
 Download the [LongCLIP](https://huggingface.co/zer0int/LongCLIP-GmP-ViT-L-14) from Huggingface, and put the model weights in `/path/to/save/`.
 
-Download the checkpoints from [Google Drive](https://drive.google.com/drive/folders/17zQJlxj5j7eWr636vmYdw1sGqi-uW1i4?usp=drive_link).
+Download the checkpoints of DTTC model from [Google Drive](https://drive.google.com/drive/folders/17zQJlxj5j7eWr636vmYdw1sGqi-uW1i4?usp=drive_link).
 <details>
     <summary> Assume the checkpoints are in `/path/to/save/`. It should be like:</summary>
 
@@ -126,9 +126,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If our work helps you in research, please give us a star or cite us using the following:
 ```
 @article{gu2026tadiff,
-  title={VerbalTS: Generating Time Series from Texts},
+  title={What if Tomorrow is the World Cup Final? Counterfactual Time Series Forecasting with Textual Conditions},
   author={Gu, Shuqi and Zhao, Yongxiang and Jing, Baoyu and Ren, Kan},
-  journal={What if Tomorrow is the World Cup Final? Counterfactual Time Series Forecasting with Textual Conditions},
+  journal={International Conference on Machine Learning},
   year={2026}
 }
 ```

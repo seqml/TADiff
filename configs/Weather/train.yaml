@@ -1,9 +1,9 @@
 data:
   name: CF
-  folder: ./datasets/Synth
+  folder: ./datasets/Weather
   text_type: raw
-  hist_len: 128
-  pred_len: 128
+  hist_len: 36
+  pred_len: 36
 
 train:
   epochs: 200

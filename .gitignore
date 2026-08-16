@@ -1,4 +1,6 @@
 datasets
 __pycache__
 save
+slurm
+slurm_record
 .DS_Store

@@ -1,7 +1,7 @@
 python run.py \
     --cond_modal text \
     --text_type raw \
-    --save_folder ./save/Synth \
+    --save_folder ./save/TADiff/Synth \
     --model_diff_config_path configs/Synth/model.yaml \
     --model_cond_config_path configs/Synth/cond.yaml \
     --train_config_path configs/Synth/train.yaml \
@@ -14,7 +14,7 @@ python run.py \
     --num_layers 3 \
     --channels 64 \
     --patch_size 8 \
-    --task_type CF \
-    --dttc_folder ./save/DTTC_Synth \
+    --dttc_folder ./save/DTTC/Synth \
     --f_loss_weight 1.0 \
     --a_loss_weight 0.5 \
+    --only_evaluate true \

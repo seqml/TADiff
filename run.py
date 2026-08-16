@@ -102,7 +102,6 @@ parser.add_argument("--epochs", type=int, default=200)
 
 parser.add_argument("--text_type", type=str, default="none")
 parser.add_argument("--cond_modal", type=str, default="none")
-parser.add_argument("--task_type", type=str, default="CF")
 parser.add_argument("--f_loss_weight", type=float, default=1.0)
 parser.add_argument("--a_loss_weight", type=float, default=1.0)
 
@@ -121,12 +120,10 @@ model_cond_configs["cond_modal"] = args.cond_modal
 train_configs["train"]["lr"] = args.lr
 train_configs["train"]["epochs"] = args.epochs
 train_configs["train"]["batch_size"] = args.batch_size
-train_configs["train"]["task_type"] = args.task_type
 train_configs["train"]["f_loss_weight"] = args.f_loss_weight
 train_configs["train"]["a_loss_weight"] = args.a_loss_weight
 
 eval_configs["eval"]["batch_size"] = args.batch_size
-eval_configs["eval"]["task_type"] = args.task_type
 
 train_configs["data"]["folder"] = args.data_folder
 train_configs["data"]["text_type"] = args.text_type

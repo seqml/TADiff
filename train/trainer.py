@@ -32,7 +32,6 @@ class Trainer:
 
         self.lr = self.configs["lr"]
         self.batch_size = self.configs["batch_size"]
-        self.task_type = self.configs["task_type"]
 
         self.model_path = self.configs["model_path"]
         self.output_folder = configs["output_folder"]
@@ -105,17 +104,14 @@ class Trainer:
                 self._global_batch_no += 1
                 self.opt.zero_grad()
 
-                if self.task_type == "F":
-                    loss_dict = self.model(train_batch, "F", self.loss_type, dttc_model=self.dttc, is_train=True)
-                if self.task_type == "CF":
-                    f_loss_dict = self.model(train_batch, "F", self.loss_type, dttc_model=self.dttc, is_train=True)
-                    a_loss_dict = self.model(train_batch, "A", "noise", dttc_model=self.dttc, is_train=True)
-                    loss_dict = {}
-                    for k in f_loss_dict.keys():
-                        loss_dict[f"F_{k}"] = f_loss_dict[k]
-                    for k in a_loss_dict.keys():
-                        loss_dict[f"A_{k}"] = a_loss_dict[k]
-                    loss_dict["all"] = loss_dict["F_all"] * self.configs["f_loss_weight"] + loss_dict["A_all"] * self.configs["a_loss_weight"]
+                f_loss_dict = self.model(train_batch, "F", self.loss_type, dttc_model=self.dttc, is_train=True)
+                a_loss_dict = self.model(train_batch, "A", "noise", dttc_model=self.dttc, is_train=True)
+                loss_dict = {}
+                for k in f_loss_dict.keys():
+                    loss_dict[f"F_{k}"] = f_loss_dict[k]
+                for k in a_loss_dict.keys():
+                    loss_dict[f"A_{k}"] = a_loss_dict[k]
+                loss_dict["all"] = loss_dict["F_all"] * self.configs["f_loss_weight"] + loss_dict["A_all"] * self.configs["a_loss_weight"]
 
                 loss_dict["all"].backward()
                 self.opt.step()
@@ -142,15 +138,12 @@ class Trainer:
         batch_num = 0
         with torch.no_grad():
             for batch_no, valid_batch in enumerate(self.valid_loader):
-                if self.task_type == "F":
-                    loss_dict = self.model(valid_batch, "F", self.loss_type, dttc_model=self.dttc, is_train=False)
-                elif self.task_type == "CF":
-                    f_loss_dict = self.model(valid_batch, "F", self.loss_type, dttc_model=self.dttc, is_train=False)
-                    g_loss_dict = self.model(valid_batch, "A", "noise", dttc_model=self.dttc, is_train=False)
-                    loss_dict = {}
-                    loss_dict["F_loss"] = f_loss_dict["all"]
-                    loss_dict["A_loss"] = g_loss_dict["all"]
-                    loss_dict["all"] = loss_dict["F_loss"] * self.configs["f_loss_weight"] + loss_dict["A_loss"] * self.configs["a_loss_weight"]
+                f_loss_dict = self.model(valid_batch, "F", self.loss_type, dttc_model=self.dttc, is_train=False)
+                g_loss_dict = self.model(valid_batch, "A", "noise", dttc_model=self.dttc, is_train=False)
+                loss_dict = {}
+                loss_dict["F_loss"] = f_loss_dict["all"]
+                loss_dict["A_loss"] = g_loss_dict["all"]
+                loss_dict["all"] = loss_dict["F_loss"] * self.configs["f_loss_weight"] + loss_dict["A_loss"] * self.configs["a_loss_weight"]
 
                 for k in loss_dict.keys():
                     if k in avg_loss_valid_dict.keys():
