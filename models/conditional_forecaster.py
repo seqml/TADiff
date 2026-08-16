@@ -123,44 +123,9 @@ class ConditionalForecaster(nn.Module):
         mask = mask[:,None,:]
         return ts, mask, tp, text, mean, std
 
-    def forecast(self, batch, task_type, n_samples, sampler="ddim", is_determin=True, return_initial_noise=False):
-        if task_type == "F":
-            return self.forecast_F(batch, n_samples, sampler, is_determin=is_determin, return_initial_noise=return_initial_noise)
-        elif task_type == "CF":
-            return self.forecast_CF(batch, n_samples, sampler, is_determin=is_determin, return_initial_noise=return_initial_noise)
+    def forecast(self, batch, n_samples, sampler="ddim", is_determin=True, return_initial_noise=False):
+        return self.forecast_CF(batch, n_samples, sampler, is_determin=is_determin, return_initial_noise=return_initial_noise)
     
-    @torch.no_grad()
-    def forecast_F(self, batch, n_samples, sampler="ddim", is_determin=True, return_initial_noise=False):
-        ts, mask, tp, text, mean, std = self._unpack_data(batch, "F")
-        
-        if self.cond_configs["cond_modal"] != "none":
-            text_emb_raw = self.text_en(text, "F")
-            text_emb = self.cond_projector(text_emb_raw)
-        else:
-            text_emb = None
-
-        samples = []
-        initial_noise = []
-        B = ts.shape[0]
-        for i in range(n_samples):
-            x = torch.randn_like(ts)
-            x = x * mask + ts * (1-mask)
-            initial_noise.append(x)
-            for t in range(self.forecaster.num_steps-1, -1, -1):
-                noise = torch.randn_like(x)
-                t = (torch.ones(B, device=self.device) * t).long()
-                ret_dict = self.forecaster.predict_noise(x, mask, tp, text_emb, t)
-                if sampler == "ddpm":
-                    x = self.forecaster.ddpm.reverse(x, ret_dict["pred_noise"], t, noise)
-                else:
-                    x = self.forecaster.ddim.reverse(x, ret_dict["pred_noise"], t, noise, is_determin=is_determin)
-                x = x * mask + ts * (1-mask)
-            x = x * std + mean
-            samples.append(x)
-        if return_initial_noise:
-            return torch.stack(samples), torch.stack(initial_noise)
-        else:
-            return torch.stack(samples)
     
     @torch.no_grad()
     def forecast_CF(self, batch, n_samples, sampler="ddim", is_determin=True, return_initial_noise=False):

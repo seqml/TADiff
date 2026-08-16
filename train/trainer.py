@@ -86,12 +86,12 @@ class Trainer:
         self.evaluator.model = self.model
         
         self.evaluator.n_samples = 1
-        res_dict = self.evaluator.evaluate(split=split, sampler="ddim", eval_type="CF")
+        res_dict = self.evaluator.evaluate(split=split, sampler="ddim")
         for k in res_dict["tensorboard"].keys():
             self.tf_writer.add_scalar(fr"CF_{split}/{k}", res_dict["tensorboard"][k], epoch_no)
         
         self.evaluator.n_samples = 1
-        res_dict = self.evaluator.evaluate(split=split, sampler="ddim", eval_type="F")
+        res_dict = self.evaluator.evaluate(split=split, sampler="ddim")
         for k in res_dict["tensorboard"].keys():
             self.tf_writer.add_scalar(fr"F_{split}/{k}", res_dict["tensorboard"][k], epoch_no)
         

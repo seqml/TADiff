@@ -57,7 +57,7 @@ def evaluate(eval_configs, model_diff_configs, model_cond_configs, output_folder
 
 def _evaluate_(evaluator, sampler="ddim", n_samples=1):
     evaluator.n_samples = n_samples
-    res_dict = evaluator.evaluate(split="test", sampler=sampler, ret_res=True)
+    res_dict = evaluator.evaluate(split="test", sampler=sampler)
 
     info = {
         "sampler": sampler,
@@ -65,7 +65,6 @@ def _evaluate_(evaluator, sampler="ddim", n_samples=1):
     }
     info.update(res_dict["df"])    
     df = pd.DataFrame([info])
-    df["steps"].astype(int)
     return df
 
 def run(train_configs, eval_configs, model_diff_configs, model_cond_configs, output_folder, data_folder="", only_evaluate=False):

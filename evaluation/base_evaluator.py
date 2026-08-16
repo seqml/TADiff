@@ -41,9 +41,8 @@ class BaseEvaluator:
         self.valid_loader = dataset.get_loader(split="valid", batch_size=self.batch_size, shuffle=False, include_self=False)
         self.test_loader = dataset.get_loader(split="test", batch_size=self.batch_size, shuffle=False, include_self=False)
 
-    def evaluate(self, split, sampler="ddpm", eval_type="F", is_determin=True):
+    def evaluate(self, split, sampler="ddpm", is_determin=True):
 
-        print(f"Evaluate type is {eval_type}")
         self.model.eval()
         sample_num, mae, mse, dttc_i, dttc_e = 0, 0, 0, 0, 0
         with torch.no_grad():
@@ -52,11 +51,7 @@ class BaseEvaluator:
             elif split == "test":
                 tmp_loader = self.test_loader
             for batch_no, batch in enumerate(tmp_loader):
-                if eval_type == "F":
-                    multi_preds = self.model.forecast(batch, eval_type, self.n_samples, sampler, is_determin)
-                elif eval_type == "CF":
-                    multi_preds = self.model.forecast(batch, eval_type, self.n_samples, sampler, is_determin)
-
+                multi_preds = self.model.forecast(batch, self.n_samples, sampler, is_determin)
                 multi_preds = multi_preds.permute(0,1,3,2)
                 pred = multi_preds.median(dim=0).values
                 ts = batch["ts"].to(self.model.device).float()
