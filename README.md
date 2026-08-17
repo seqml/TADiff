@@ -54,7 +54,7 @@ You can use the following command to prepare your environment.
 pip install -r requirements.txt
 ```
 ### 2. Dataset
-Download the datasets from [Google Drive](https://drive.google.com/drive/folders/1N0zxkLdvpdjkwayKA2OZIJYP4nfzhOeF?usp=drive_link).
+Download the datasets from [Google Drive](https://drive.google.com/drive/folders/1Gagp9kILGUUTEo5py9Hhrtqd8uwOOy8f?usp=drive_link).
 <details>
     <summary> Assume the datasets are in `/path/to/dataset/`. It should be like:</summary>
   
@@ -78,7 +78,7 @@ Download the datasets from [Google Drive](https://drive.google.com/drive/folders
 ### 3. Pretrained model checkpoints
 Download the [LongCLIP](https://huggingface.co/zer0int/LongCLIP-GmP-ViT-L-14) from Huggingface, and put the model weights in `/path/to/save/`.
 
-Download the checkpoints of DTTC model from [Google Drive](https://drive.google.com/drive/folders/17zQJlxj5j7eWr636vmYdw1sGqi-uW1i4?usp=drive_link).
+Download the checkpoints of DTTC model from [Google Drive](https://drive.google.com/drive/folders/15GuEbQbQOomKlPv7kApPxsnlHiqJ7HA1?usp=drive_link).
 <details>
     <summary> Assume the checkpoints are in `/path/to/save/`. It should be like:</summary>
 
@@ -106,17 +106,18 @@ To pretrain the model on the factual data and finetune the model on the counterf
 bash scripts/{dataset_name}/pretrain.sh
 bash scripts/{dataset_name}/finetune.sh
 ```
-### 2. Results
+### 2. Evaluate with checkpoints
+To evaluate the model with the checkpoints under factual and counterfactual settings.
+```
+bash scripts/{dataset_name}/eval_f.sh
+bash scripts/{dataset_name}/eval_cf.sh 
+```
+### 3. Results
 After the training, check the results at the following path.
 ```
 {save_folder}/{run_id}/results.csv
 ```
-### 3. Evaluate with checkpoints
-To evaluate the model with the checkpoints.
-```
-bash scripts/{dataset_name}/eval.sh
-```
-### 5. Device
+### 4. Device
 All codes in this repository run on GPU by default. If you need to run on the CPU, please modify the device-related parameters in the config file.
 
 ## License
