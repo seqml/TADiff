@@ -1,7 +1,7 @@
 # TADiff: The implementation codes of "What if Tomorrow is the World Cup Final? Counterfactual Time Series Forecasting with Textual Conditions" 📈
 <div align="center">
 
-[![project page](https://img.shields.io/badge/Project%20page-TADiff%20-lightblue)](https://seqml.github.io/VerbalTS/)&nbsp;
+[![project page](https://img.shields.io/badge/Project%20page-TADiff%20-lightblue)](https://seqml.github.io/TADiff/)&nbsp;
 [![paper link](https://img.shields.io/badge/ICML-65690-b31b1b.svg)](https://icml.cc/virtual/2026/poster/65690)&nbsp;
 
 </div>
